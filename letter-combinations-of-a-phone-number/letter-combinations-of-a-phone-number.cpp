@@ -13,6 +13,7 @@ public:
             if(chars[row][col] == "")
                 continue;
             else {
+                
                 back_track(row+1, vec, s+chars[row][col]);
             }
         }
