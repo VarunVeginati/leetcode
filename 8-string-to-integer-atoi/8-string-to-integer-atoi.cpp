@@ -10,8 +10,8 @@ public:
         long int x=0;
         g>>x;
         
-        if(x<-2147483648) return -2147483648;
-        else if(x>2147483647) return 2147483647;
+        if(x<INT_MIN) return INT_MIN;
+        else if(x>INT_MAX) return INT_MAX;
         return x;
     }
     
