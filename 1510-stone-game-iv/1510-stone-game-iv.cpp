@@ -1,28 +1,17 @@
 class Solution {
 public:
-    vector<int> memo;
-    
-    int dp(int n) {
-        if(n==1) return true;
+    bool winnerSquareGame(int n) {
+        vector<bool> dp(n+1, false);
         
-        if(memo[n] != -1) return memo[n]==1?true:false;
-        
-        int a = sqrt(n);
-        
-        for(int i=1; i<=a; i++) {
-            if(!dp(n-(i*i))) {
-                memo[n] = 1;
-                return true;
+        for(int i=0; i<=n; i++) {
+            for(int k=1; k*k<=i; k++) {
+                if(dp[i-k*k] == false) {
+                    dp[i] = true;
+                    break;
+                } 
             }
         }
         
-        memo[n] = 0;
-        
-        return false;;
-    }
-    
-    bool winnerSquareGame(int n) {
-        memo = vector<int>(n+1, -1);
-        return dp(n);
+        return dp[n];
     }
 };
