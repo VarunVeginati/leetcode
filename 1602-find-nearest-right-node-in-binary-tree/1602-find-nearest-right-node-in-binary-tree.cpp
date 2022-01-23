@@ -51,42 +51,18 @@ public:
     }
     
     TreeNode* findNearestRightNode(TreeNode* root, TreeNode* u) {
-//         level_order(root, height(root, u));
-//         int i;
+        level_order(root, height(root, u));
+        int i;
         
-//         for(i=0; i<vec.size(); i++) {
-//             if(vec[i]==u->val)
-//                 break;
-//         }
-        
-//         if(i==vec.size()-1) return NULL;
-        
-//         int a = vec[i+1];
-        
-//         return find(root, a);
-        
-        queue<TreeNode*> q_curr;
-        queue<TreeNode*> q_next;
-        q_next.push(root);
-        
-        while(!q_next.empty()) {
-            int q_size = q_next.size();
-            q_curr = q_next;
-            q_next = queue<TreeNode*>();
-            
-            for(int i=0; i<q_size; i++) {
-                TreeNode* curr = q_curr.front();
-                q_curr.pop();
-                if(curr==u) {
-                    if(q_curr.size()>0) return q_curr.front();
-                    else return NULL;
-                }
-                
-                if(curr->left!=NULL) q_next.push(curr->left);
-                if(curr->right!=NULL) q_next.push(curr->right);
-            }
+        for(i=0; i<vec.size(); i++) {
+            if(vec[i]==u->val)
+                break;
         }
         
-        return NULL;
+        if(i==vec.size()-1) return NULL;
+        
+        int a = vec[i+1];
+        
+        return find(root, a);
     }
 };
