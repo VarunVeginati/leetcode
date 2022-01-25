@@ -4,20 +4,26 @@ public:
         string str = "";
         
         for(int i=0; i<s.length(); i++) {
-            // if(s[i]>=65 && s[i]<=90) {
-            //     str += tolower(s[i]);
-            // } else if((s[i]>=97 && s[i]<=122) 
-            //           || (s[i]>=48 && s[i]<=57) ) {
-            //     str += s[i];
-            // }
             if(isalnum(s[i]))
                 str += tolower(s[i]);
         }
         
-        string str_reverse = str;
+        int l;
+        int r;
         
-        reverse(str.begin(), str.end());
+        if(str.length()%2==0) {
+            l=(str.length()/2)-1;
+            r=str.length()/2;
+        } else {
+            l=r=str.length()/2;
+        }
         
-        return str==str_reverse;
+        while(l>=0 && r<str.length()) {
+            if(str[l] != str[r]) return false;
+            l--;
+            r++;
+        }
+        
+        return true;
     }
 };
