@@ -26,27 +26,27 @@ public:
         long s1 = 0;
         ss >> s1;
         
-        if(s1==0) return "0";        
+        if(s1==0) return "0";
         return s;
     }
     
-    string largestNumber(vector<int>& vec) {
-        // int n = nums.size();
-        // map<int, vector<int>> m; 
+    string largestNumber(vector<int>& nums) {
+        int n = nums.size();
+        map<int, vector<int>> m; 
         
-        // for(int i=0; i<n; i++) {
-        //     m[get_first_digit(nums[i])].push_back(nums[i]);
-        // }
+        for(int i=0; i<n; i++) {
+            m[get_first_digit(nums[i])].push_back(nums[i]);
+        }
         
         string res = "";
         
-        // for(int i=9; i>=0; i--) {
-            // vector<int> vec = m[i];
-            // if(vec.size()>0) {
+        for(int i=9; i>=0; i--) {
+            vector<int> vec = m[i];
+            if(vec.size()>0) {
                 sort(vec.begin(), vec.end(), compare);
                 res = get_string(res, vec);
-            // }
-        // }
+            }
+        }
         
         return res;
     }
