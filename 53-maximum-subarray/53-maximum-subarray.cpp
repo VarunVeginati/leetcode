@@ -1,26 +1,14 @@
 class Solution {
 public:
-    vector<int> vec;
-    map<int, int> memo;
-    
-    int dp(int i) {
-        if(i==vec.size()-1) return vec[i];
-        
-        if(memo.find(i) != memo.end()) return memo[i];
-        
-        memo[i] = max(vec[i], vec[i]+dp(i+1));;
-        
-        return memo[i];
-    }
-    
     int maxSubArray(vector<int>& nums) {
-        vec = nums;
-        int mx = INT_MIN;
+        int maxArray = nums[0];
+        int maxSum = nums[0];
         
-        for(int i=0; i<nums.size(); i++) {
-            mx = max(mx, dp(i));
+        for(int i=1; i<nums.size(); i++) {
+            maxSum = max(nums[i], maxSum+nums[i]);
+            maxArray = max(maxArray, maxSum);
         }
         
-        return mx;
+        return maxArray;
     }
 };
