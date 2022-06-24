@@ -30,7 +30,7 @@ public:
             
             for(int node: adjacentNodes) {
                 if(indegree[node] == 0) {
-                    isPossible = true;
+                    isPossible = false;
                     break;
                 }
                 indegree[node]--;
