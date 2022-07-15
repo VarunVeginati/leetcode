@@ -1,6 +1,6 @@
 class Solution {
 private:
-    map<pair<int, vector<int> >, bool> memo;
+    map<int, bool> memo;
     
     bool dp(int sum, vector<int> vec) {
         if(sum == 0) {
@@ -10,12 +10,12 @@ private:
             return false;
         }
         
-        if(memo.find(make_pair(sum, vec)) != memo.end()) return memo[make_pair(sum, vec)];
+        if(memo.find(sum) != memo.end()) return memo[sum];
         
-        memo[make_pair(sum, vec)] = dp(sum-vec[0], {vec.begin()+1, vec.end()}) || 
+        memo[sum] = dp(sum-vec[0], {vec.begin()+1, vec.end()}) || 
             dp(sum,{vec.begin()+1, vec.end()});
         
-        return memo[make_pair(sum, vec)];
+        return memo[sum];
     }
     
 public:
