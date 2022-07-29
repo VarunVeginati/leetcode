@@ -1,21 +1,22 @@
 class Solution {
 public:
     int maxResult(vector<int>& nums, int k) {
+        int n = nums.size();
         deque<pair<int,int> > dq;
-        dq.push_back(make_pair(nums[0], 0));
+        dq.push_back(make_pair(nums[n-1], n-1));
         
-        int score = nums[0];
+        int a = nums[n-1];
         
-        for(int i=1; i<nums.size(); i++) {
-            while(!dq.empty() && dq.front().second<i-k) dq.pop_front();
+        for(int i=n-2; i>=0; i--) {
+            while(!dq.empty() && dq.front().second>i+k) dq.pop_front();
             
-            score = dq.front().first + nums[i];
+            a = nums[i]+dq.front().first;
             
-            while(!dq.empty() && dq.back().first<=score) dq.pop_back();
+            while(!dq.empty() && dq.back().first<=a) dq.pop_back();
             
-            dq.push_back(make_pair(score,i));
+            dq.push_back(make_pair(a,i));
         }
         
-        return score;
+        return a;
     }
 };
