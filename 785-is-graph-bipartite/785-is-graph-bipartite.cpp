@@ -22,6 +22,7 @@ public:
                     q.pop();
                     
                     vector<int> neighbours = graph[curr];
+                    visited.insert(curr);
                     
                     for(int j=0; j<neighbours.size(); j++) {
                         if(visited.find(neighbours[j]) != visited.end()) continue;
@@ -31,7 +32,6 @@ public:
                         
                         q.push(neighbours[j]);
                     }
-                    visited.insert(curr);
                 }
             }
         }
