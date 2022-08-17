@@ -11,40 +11,34 @@
  */
 class Solution {
 public:
-    TreeNode* head;
+    map<int,vector<int>> m;
     
     bool isLeaf(TreeNode* root) {
         return root->left==NULL && root->right==NULL;
     }
     
-    void dfs(TreeNode* root, vector<int> &vec) {
-        if(root==NULL) return;
-        
-        if(root->left != NULL && isLeaf(root->left)) {
-            vec.push_back(root->left->val);
-            root->left = NULL;
+    int height(TreeNode* root) {
+        if(root==NULL) return 0;
+        if(isLeaf(root)) {
+            m[0].push_back(root->val);
+            return 0;
         }
         
-        if(root->right != NULL && isLeaf(root->right)) {
-            vec.push_back(root->right->val);
-            root->right = NULL;
-        }
+        int left = height(root->left);
+        int right = height(root->right);
         
-        dfs(root->left, vec);
-        dfs(root->right, vec);
+        int h = 1+max(left,right);
+        m[h].push_back(root->val);
+        return h;
     }
     
     vector<vector<int>> findLeaves(TreeNode* root) {
+        int h = height(root);
         vector<vector<int>> res;
-        head = root;
         
-        while(!isLeaf(root)) {
-            vector<int> vec;
-            dfs(head, vec);
-            res.push_back(vec);
+        for(int i=0; i<=h; i++) {
+            res.push_back(m[i]);
         }
-        
-        res.push_back({head->val});
         
         return res;
     }
