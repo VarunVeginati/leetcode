@@ -1,96 +1,71 @@
-class DIJKASTRAS {
+class Dijkstras{
 private:
-	// data structure to store the connected edges.
-	// 1->2->10, 1->3->5 will be stores as [[[2,10], [3,5]], [[]], ..].
-	vector<vector<vector<int> > > edges;
-
-	// data structure to keep track of which nodes are visited.
-	vector<int> visited;
-
-	// to keep track of visited nodes count.
-	int visited_count;
-
-	// to store total number of nodes.
-	int total_nodes;
-
-	// data structure to store dijkstras algorithm table.
-	vector<pair<int,int> > table;
-
-	// min heap data structure to process the next min cost node.
-	priority_queue<pair<int,int>, 
-	vector<pair<int,int> >, 
-	greater<pair<int,int> > > pq;
-
+    vector<vector<pair<int,int> >> edges;
+    vector<pair<int,int> > table;
+    priority_queue<pair<int,int>, vector<pair<int,int> >, greater<pair<int,int> >> pq;
+    int visited_count = 0;
+    vector<int> visited;
+    int total_nodes;
+    
 public:
-	DIJKASTRAS(vector<vector<int> > graph, int n) {
-		visited = vector<int>(n+1, 0);
-		total_nodes = n;
-		visited_count = 0;
-
-		edges = vector<vector<vector<int> > >(n+1);
-		table = vector<pair<int,int> >(n+1);
-
-		for(int i=1; i<=n; i++) {
-			table[i] = make_pair(INT_MAX,INT_MAX);
-		}
-
-		for(int i=0; i<graph.size(); i++) {
-			edges[graph[i][0]].push_back({graph[i][1], graph[i][2]});
-		}
-	}
-
-	void generate_table(int starting_node) {
-		table[starting_node] = make_pair(0, INT_MAX);
-
-		for(int i=0; i<edges[starting_node].size(); i++) {
-			pq.push(make_pair(edges[starting_node][i][1], edges[starting_node][i][0]));
-			table[edges[starting_node][i][0]] = make_pair(edges[starting_node][i][1], starting_node);
-		}
-
-		visited_count++;
-		visited[starting_node] = 1;
-
-		while(pq.size() > 0 && visited_count < total_nodes) {
-			int top_node = pq.top().second;
-			pq.pop();
-
-			if(visited[top_node] == 1) continue;
-
-			vector<vector<int> > adjacentNodes = edges[top_node];
-
-			for(int i=0; i<adjacentNodes.size(); i++) {
-				int cost = table[top_node].first+adjacentNodes[i][1];
-				if(visited[adjacentNodes[i][0]] == 1) continue;
-				else if(cost < table[adjacentNodes[i][0]].first) {
-					table[adjacentNodes[i][0]] = make_pair(cost, top_node);
-					pq.push(make_pair(cost, adjacentNodes[i][0]));
-				}
-			}
-
-			visited_count++;
-			visited[top_node] = 1;
-		}
-	}
-
-
-	int get_max() {
-        int mx = 0;
-		for(int i=1; i<=total_nodes; i++) {
-			mx = max(mx, table[i].first);
-		}
+    Dijkstras(vector<vector<int>>& times, int n) {
+        visited = vector<int>(n+1, 0);
+        edges = vector<vector<pair<int,int> >>(n+1);
+        table = vector<pair<int,int> >(n+1, make_pair(INT_MAX,INT_MAX));
+        total_nodes = n;
+        for(int i=0; i<times.size(); i++) {
+            edges[times[i][0]].push_back(make_pair(times[i][1], times[i][2]));
+        }
+    }
+    
+    void generateTable(int k) {
+        table[k] = make_pair(0,0);
+        vector<pair<int,int> > neighbors = edges[k];
+        for(int i=0; i<neighbors.size(); i++) {
+            table[neighbors[i].first] = make_pair(neighbors[i].second, k);
+            pq.push(make_pair(neighbors[i].second, neighbors[i].first));
+        }
+        visited_count++;
+        visited[k]=1;
         
-        return mx==INT_MAX?-1:mx;
-	}
-
+        while(pq.size()>0 && visited_count<total_nodes) {
+            pair<int,int> top_node = pq.top();
+            pq.pop();
+            
+            if(visited[top_node.second] == 1) continue;
+            
+            vector<pair<int,int> > neighbors = edges[top_node.second];
+            
+            for(int i=0; i<neighbors.size(); i++) {
+                int a = top_node.first + neighbors[i].second;
+                if(a < table[neighbors[i].first].first) {
+                    table[neighbors[i].first] = make_pair(a, top_node.second);
+                    pq.push(make_pair(a, neighbors[i].first));
+                }
+            }
+            visited_count++;
+            visited[top_node.second]=1;
+        }
+        
+    }
+    
+    int getMax() {
+        int res = 0;
+        for(int i=1; i<table.size(); i++) {
+            res = max(res, table[i].first);
+        }
+        
+        return res!=INT_MAX?res:-1;
+    }
 };
 
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        DIJKASTRAS dj(times, n);
-
-	    dj.generate_table(k);
+        Dijkstras dk = Dijkstras(times, n);
         
-        return dj.get_max();
+        dk.generateTable(k);
+        
+        return dk.getMax();
     }
 };
