@@ -1,20 +1,20 @@
 class Solution {
 public:
     int minimumRecolors(string blocks, int k) {
-        vector<int> vec;
         int cnt = 0;
         
-        for(int i=0; i<blocks.length(); i++) {
+        for(int i=0; i<k; i++) {
             if(blocks[i]=='W') cnt++;
-            vec.push_back(cnt);
         }
-        
-        int mn = vec[k-1];
+        int mn = cnt;
         
         for(int i=k; i<blocks.length(); i++) {
-            mn = min(mn, vec[i]-vec[i-k]);
+            if(blocks[i-k]=='W') cnt--;
+            if(blocks[i]=='W') cnt++;
+            
+            mn = min(mn, cnt);
         }
         
         return mn;
     }
-};
+}; 
