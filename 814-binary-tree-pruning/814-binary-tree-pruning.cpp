@@ -17,10 +17,10 @@ public:
     
     bool dfs(TreeNode* &root) {
         if(root == NULL) return false;
-        if(is_leaf(root)) {
-            if(root->val==0) return false;
-            else return true;
-        }
+        // if(is_leaf(root)) {
+        //     if(root->val==0) return false;
+        //     else return true;
+        // }
         
         bool left = dfs(root->left);
         bool right = dfs(root->right);
