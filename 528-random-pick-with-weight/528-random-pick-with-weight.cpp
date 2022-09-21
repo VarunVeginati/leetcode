@@ -14,11 +14,18 @@ public:
         float randNum = (float) rand()/RAND_MAX;
         float target = randNum * prefixSum.back();
         
-        for(int i=0; i<prefixSum.size(); i++)
-            if(target < prefixSum[i])
-                return i;
+        // binary search
+        int l=0;
+        int r = prefixSum.size()-1;
         
-        return prefixSum.size()-1;
+        while(l<=r) {
+            int mid = l + (r-l)/2;
+            
+            if(target < prefixSum[mid])  r = mid-1;
+            else l = mid+1;
+        }
+        
+        return l;
     }
 };
 
