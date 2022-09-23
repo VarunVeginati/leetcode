@@ -4,10 +4,10 @@ public:
         map<int,int> m;
         
         for(int i=0; i<nums.size(); i++) {
-            int a = target-nums[i];
-            if(m.find(a) != m.end()) return {i, m[a]};
+            int k = target-nums[i];
+            if(m.find(k) != m.end()) return {m[k], i};
             
-            m[nums[i]]=i;
+            m[nums[i]] = i;
         }
         
         return {};
