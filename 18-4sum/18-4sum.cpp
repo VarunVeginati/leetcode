@@ -19,7 +19,7 @@ public:
                     
                     if(sum==target) {
                         res.push_back({nums[i], nums[j], nums[k], nums[l]});
-                        k = upper_bound(nums.begin()+k, nums.end(), nums[k]) - nums.begin();
+                        k = upper_bound(nums.begin(), nums.end(), nums[k]) - nums.begin();
                         l = lower_bound(nums.begin(), nums.end(), nums[l]) - nums.begin();
                     } else if(sum>target) {
                         l--;
@@ -28,9 +28,9 @@ public:
                     }
                 }
                 
-                j = upper_bound(nums.begin()+j, nums.end(), nums[j]) - nums.begin();
+                j = upper_bound(nums.begin(), nums.end(), nums[j]) - nums.begin();
             }
-            i = upper_bound(nums.begin()+i, nums.end(), nums[i]) - nums.begin();
+            i = upper_bound(nums.begin(), nums.end(), nums[i]) - nums.begin();
         }
         
         return res;
