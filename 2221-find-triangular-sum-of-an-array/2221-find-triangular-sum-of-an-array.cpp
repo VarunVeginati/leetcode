@@ -2,12 +2,13 @@ class Solution {
 public:
     int triangularSum(vector<int>& nums) {
         if(nums.size() == 1) return nums[0];
-        vector<int> newNums;
         
-        for(int i=0; i<nums.size()-1; i++) {
-            newNums.push_back((nums[i]+nums[i+1])%10);
+        for(int i=0; i<nums.size(); i++) {
+            for(int j=0; j<nums.size()-i-1; j++) {
+                nums[j] = (nums[j]+nums[j+1])%10;
+            }
         }
         
-        return triangularSum(newNums);
+        return nums[0]%10;
     }
 };
