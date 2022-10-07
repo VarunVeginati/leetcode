@@ -24,15 +24,17 @@ public:
         curr->isWord = true;
     }
     
-    void dfs(Node* curr, vector<string> &vec, string str) {
+    void dfs(Node* curr, vector<string> &vec, string &str) {
         if(vec.size()>=3 || curr==NULL) return;
         if(curr->isWord) {
             vec.push_back(str);
         }
         
-        for(int i=0; i<26; i++) {
-            if(curr->children[i] != NULL) {
-                dfs(curr->children[i], vec, str+((char) (i+'a')));
+        for(char c='a'; c<='z'; c++) {
+            if(curr->children[c-'a'] != NULL) {
+                str += c;
+                dfs(curr->children[c-'a'], vec, str);
+                str.pop_back();
             }
         }
     }
