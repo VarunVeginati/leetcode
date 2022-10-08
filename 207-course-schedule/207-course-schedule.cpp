@@ -1,62 +1,55 @@
-class TopologicalOrder{
+class TopologicalSort{
 private:
     vector<vector<int>> edges;
     vector<int> indegree;
     vector<int> order;
-    queue<int> q;
-    bool isPossible = true;
+    bool possible = true;
     
 public:
-    TopologicalOrder(vector<vector<int>> graph, int numCourses) {
-        indegree = vector<int>(numCourses, 0);
-        edges = vector<vector<int>>(numCourses);
+    TopologicalSort(vector<vector<int>> &prerequisites, int n) {
+        indegree = vector<int>(n ,0);
+        edges = vector<vector<int>>(n);
         
-        for(int i=0; i<graph.size(); i++) {
-            edges[graph[i][1]].push_back(graph[i][0]);
-            indegree[graph[i][0]]++;
+        for(int i=0; i<prerequisites.size(); i++){
+            indegree[prerequisites[i][0]]++;
+            edges[prerequisites[i][1]].push_back(prerequisites[i][0]);
         }
     }
     
-    void buildOrder() {
-        for(int i=0; i<indegree.size(); i++)
+    void generateOrder(int n) {
+        queue<int> q;
+        for(int i=0; i<n; i++)
             if(indegree[i]==0) q.push(i);
         
-        while(!q.empty()) {
+        while(!q.empty() && possible) {
             int curr = q.front();
             order.push_back(curr);
             q.pop();
-            
             vector<int> adjacentNodes = edges[curr];
             
-            for(int node: adjacentNodes) {
-                if(indegree[node] == 0) {
-                    isPossible = false;
+            for(int i=0; i<adjacentNodes.size(); i++) {
+                if(indegree[adjacentNodes[i]] == 0) {
+                    possible = false;
                     break;
                 }
-                indegree[node]--;
-                if(indegree[node] == 0)
-                    q.push(node);
+                
+                indegree[adjacentNodes[i]]--;
+                if(indegree[adjacentNodes[i]] == 0) q.push(adjacentNodes[i]);
             }
         }
     }
     
-    bool hasOrder() {
-        for(int i=0; i<indegree.size();i++) {
-            if(indegree[i] != 0) {
-                isPossible = false;
-                break;
-            }
-        }
-        
-        return isPossible;
+    bool isPossible(int n) {
+        return order.size()==n && possible;
     }
 };
 
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        TopologicalOrder tO = TopologicalOrder(prerequisites, numCourses);
-        tO.buildOrder();
-        return tO.hasOrder();
+        TopologicalSort tp = TopologicalSort(prerequisites, numCourses);
+        tp.generateOrder(numCourses);
+        
+        return tp.isPossible(numCourses);
     }
 };
