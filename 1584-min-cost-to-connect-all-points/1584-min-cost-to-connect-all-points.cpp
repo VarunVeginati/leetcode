@@ -41,33 +41,30 @@ public:
 class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& points) {
-        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> edges;
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
         
         for(int i=0; i<points.size(); i++) {
             for(int j=i+1; j<points.size(); j++) {
-                int dist = abs(points[i][0]-points[j][0])+abs(points[i][1]-points[j][1]);
-                edges.push({dist,i,j});
+                int dist = abs(points[i][0]-points[j][0]) + abs(points[i][1]-points[j][1]);
+                pq.push(make_pair(dist, make_pair(i,j)));
             }
         }
         
-        int n = 0;
-        int minCost = 0;
+        UnionFind uf = UnionFind(points.size());
+        int sum = 0;
         
-        UnionFind uf(points.size());
-        
-        while(!edges.empty()) {
-            if(n == points.size()-1) return minCost;
-            
-            vector<int> top_node = edges.top();
-            edges.pop();
-            
-            if(!uf.isConnected(top_node[1], top_node[2])) {
-                uf.unionSet(top_node[1], top_node[2]);
-                minCost += top_node[0];
-                n++;
+        while(!pq.empty()) {
+            if(uf.isConnected(pq.top().second.first, pq.top().second.second)) {
+                pq.pop();
+                continue;
             }
+            
+            sum += pq.top().first;
+            uf.unionSet(pq.top().second.first, pq.top().second.second);
+            
+            pq.pop();
         }
         
-        return minCost;
+        return sum;
     } 
 };
