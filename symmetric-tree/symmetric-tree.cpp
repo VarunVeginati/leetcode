@@ -11,29 +11,16 @@
  */
 class Solution {
 public:
+    bool isValid(TreeNode* t1, TreeNode* t2) {
+        if(t1==NULL && t2==NULL) return true;
+        if(t1==NULL || t2==NULL) return false;
+        
+        return t1->val==t2->val &&
+            isValid(t1->left, t2->right) &&
+            isValid(t1->right, t2->left);
+    }
+    
     bool isSymmetric(TreeNode* root) {
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while(!q.empty()) {
-            int size = q.size();
-            vector<int> vec;
-            
-            for(int i=0; i<size; i++) {
-                vec.push_back(q.front() == NULL ? -200:q.front()->val);
-                
-                if(q.front() != NULL) {
-                    q.push(q.front()->left);
-                    q.push(q.front()->right);
-                }
-                q.pop();
-            }
-            
-            vector<int> rev = vec;
-            reverse(rev.begin(), rev.end());
-            if(rev != vec) return false;
-        }
-        
-        return true;
+        return isValid(root, root);
     }
 };
