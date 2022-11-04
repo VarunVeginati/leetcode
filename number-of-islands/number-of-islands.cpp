@@ -10,16 +10,15 @@ public:
         };
         
         int res = 0;
-        set<pair<int,int>> visited;
         queue<pair<int,int>> q;
         
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
-                if(grid[i][j]=='0' || visited.find(make_pair(i,j)) != visited.end()) continue;
+                if(grid[i][j]=='0') continue;
                 
                 res++;
                 q.push(make_pair(i,j));
-                visited.insert(make_pair(i,j));
+                grid[i][j]='0';
                 
                 while(!q.empty()) {
                     int row = q.front().first;
@@ -30,10 +29,9 @@ public:
                         int r = row + direction.first;
                         int c = col + direction.second;
                         
-                        if(r<0 || c<0 || r>=m || c>=n || grid[r][c]=='0' 
-                           || visited.find(make_pair(r,c)) != visited.end()) continue;
+                        if(r<0 || c<0 || r>=m || c>=n || grid[r][c]=='0') continue;
                         
-                        visited.insert(make_pair(r,c));
+                        grid[r][c] = '0';
                         q.push(make_pair(r,c));
                     }
                 }
