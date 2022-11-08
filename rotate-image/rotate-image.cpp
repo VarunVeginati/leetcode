@@ -4,9 +4,9 @@ public:
         int n = matrix.size();
         for(int i=0; i<n; i++) {
             for(int j=i+1; j<n; j++) {
-                int a = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = a;
+                matrix[i][j] = matrix[i][j]^matrix[j][i];
+                matrix[j][i] = matrix[i][j]^matrix[j][i];
+                matrix[i][j] = matrix[i][j]^matrix[j][i];
             }
         }
     }
