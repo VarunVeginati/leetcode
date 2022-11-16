@@ -37,9 +37,11 @@ public:
     vector<int> searchRange(vector<int>& nums, int target) {
         if(!binarySearch(nums, 0, nums.size()-1, target)) return {-1,-1};
         
-        int l = lowerBound(nums, 0, nums.size()-1, target);
-        int u = upperBound(nums, 0, nums.size()-1, target);
+        // int l = lowerBound(nums, 0, nums.size()-1, target);
+        // int u = upperBound(nums, 0, nums.size()-1, target);
+        int l = lower_bound(nums.begin(), nums.end(), target)-nums.begin();
+        int u = upper_bound(nums.begin(), nums.end(), target)-nums.begin();
         
-        return {l, u};
+        return {l, u-1};
     }
 };
